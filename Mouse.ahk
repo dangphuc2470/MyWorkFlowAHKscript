@@ -29,21 +29,21 @@ return
     F1::Send {Volume_Mute}
 
     ; Remap F2 to Volume Down
-    F2::Send {Volume_Down}
+    F3::Send {Volume_Down}
 
     ; Remap F3 to Volume Up
-    F3::Send {Volume_Up}
+    F4::Send {Volume_Up}
 
-    F4::
-    While GetKeyState("F4", "P") 
+    F6::
+    While GetKeyState("F6", "P") 
     {
         Send {WheelUp}
         Sleep, 50
     }
     return
 
-    F5::
-    While GetKeyState("F5", "P")
+    F7::
+    While GetKeyState("F7", "P")
     {
         Send {WheelDown}
         Sleep, 50
