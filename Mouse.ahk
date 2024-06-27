@@ -265,3 +265,23 @@ if (activeProcess = "msedge.exe" or activeProcess = "chrome.exe")
     }
 }
 return
+
+NumLock::
+    Send, !{PrintScreen}
+return
+
+
+^F1::
+    Send, {Blind}{NumLock}
+    numLockState := GetKeyState("NumLock", "T") ? "disabled" : "enabled"
+    ShowCustomTooltip("NumLock " numLockState, 1000)
+return
+
+^-::  ; Ctrl key by itself
+    Send, -  ; Send the minus sign
+    Send, >  ; Send the greater than sign
+return
+
+^=::  ; Ctrl and + key
+    Send, DebugOutTitle(  ; Type the text "DebugOutTitle("
+return
