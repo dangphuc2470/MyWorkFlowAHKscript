@@ -285,3 +285,7 @@ return
 ^=::  ; Ctrl and + key
     Send, DebugOutTitle(  ; Type the text "DebugOutTitle("
 return
+
+^/::  ; Ctrl + /
+    Send, !{F4}  ; Send Alt + F4
+return
