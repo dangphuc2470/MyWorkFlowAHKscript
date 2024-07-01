@@ -54,6 +54,11 @@ return
     
 
     `::Send !{Tab}
+    return
+
+    ^`::Send ``
+    return
+
 #If
 
 
@@ -87,16 +92,17 @@ return
 ^Space::Send {Enter}
 return
 
-
-+Space::
-CoordMode, Mouse, Screen
-MouseMove, 920, 1000
-Click Down
-Click Up
-Click, 486, 920
-return
+; Fix chatGPT (Outdated)
+; +Space::
+; CoordMode, Mouse, Screen
+; MouseMove, 920, 1000
+; Click Down
+; Click Up
+; Click, 486, 920
+; return
 #If
 
+;Switch desktop
 #If (MiddleButtonMode == 2)
 XButton1::
     Send ^#{Left}
@@ -288,4 +294,8 @@ return
 
 ^NumpadDiv::  ; Ctrl + / on the numpad
     Send, !{F4}  ; Send Alt + F4
+return
+
+; Remap PauseBreak to Play/Pause
+Pause::Send {Media_Play_Pause}
 return
