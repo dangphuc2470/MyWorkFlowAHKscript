@@ -286,6 +286,6 @@ return
     Send, DebugOutTitle(  ; Type the text "DebugOutTitle("
 return
 
-^/::  ; Ctrl + /
+^NumpadDiv::  ; Ctrl + / on the numpad
     Send, !{F4}  ; Send Alt + F4
 return
