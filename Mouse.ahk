@@ -277,7 +277,7 @@ NumLock::
 return
 
 
-^F1::
+F1::
     Send, {Blind}{NumLock}
     numLockState := GetKeyState("NumLock", "T") ? "disabled" : "enabled"
     ShowCustomTooltip("NumLock " numLockState, 1000)
