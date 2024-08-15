@@ -283,13 +283,12 @@ F1::
     ShowCustomTooltip("NumLock " numLockState, 1000)
 return
 
-^-::  ; Ctrl key by itself
-    Send, -  ; Send the minus sign
-    Send, >  ; Send the greater than sign
+^-::  ; type async
+    Send, async
 return
 
 ^=::  ; Ctrl and + key
-    Send, DebugOutTitle(  ; Type the text "DebugOutTitle("
+    Send, await
 return
 
 ^NumpadDiv::  ; Ctrl + / on the numpad
