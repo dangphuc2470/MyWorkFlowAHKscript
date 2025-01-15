@@ -291,6 +291,10 @@ return
     Send, await
 return
 
+^{Backspace}::  ; Ctrl + Backspace
+    Send, test('
+return
+
 ^NumpadDiv::  ; Ctrl + / on the numpad
     Send, !{F4}  ; Send Alt + F4
 return
