@@ -1,14 +1,22 @@
 ﻿; Function to display a custom tooltip message
 ShowCustomTooltip(text, duration := 3000) {
-    ToolTip, %text%
-    Sleep, %duration%
-    ToolTip
+    UpdateTrayIcon()
+    ;ToolTip, %text%
+    ;ToolTip
 }
 
+UpdateTrayIcon() {
+    global MouseButtonMode, VolumeKeysDisabled
+    numLockState := GetKeyState("NumLock", "T") ? "off" : "on"
+    volumeState := VolumeKeysDisabled ? "on" : "off"
+    iconPath := "F:\App\icon\AHKicon\" . MouseButtonMode . "_" . volumeState . "_" . numLockState . ".ico"
+    Menu, Tray, Icon, %iconPath%
+}
 
 ; Set the initial state of the volume keys
 VolumeKeysDisabled := false
-MiddleButtonMode = 0
+MouseButtonMode = 1
+UpdateTrayIcon()
 
 ; Define a hotkey to toggle the volume key functionality
 ^Esc::
@@ -61,26 +69,39 @@ return
 
 #If
 
-
-
-
-^XButton2::
-if (MiddleButtonMode == 0) {
-    MiddleButtonMode++
+^MButton::
+if (MouseButtonMode == 0) {
+    MouseButtonMode++
     ShowCustomTooltip("Button Code!", 1000)
-} else if (MiddleButtonMode == 1)
+} else if (MouseButtonMode == 1)
 {
-    MiddleButtonMode++
+    MouseButtonMode++
     ShowCustomTooltip("Button desktop!", 1000)
 }
 else 
 {
-    MiddleButtonMode = 0
+    MouseButtonMode = 0
     ShowCustomTooltip("Button normal!", 1000)
 }
 return
 
-#If (MiddleButtonMode == 1) ;Code
+^XButton2::
+if (MouseButtonMode == 0) {
+    MouseButtonMode++
+    ShowCustomTooltip("Button Code!", 1000)
+} else if (MouseButtonMode == 1)
+{
+    MouseButtonMode++
+    ShowCustomTooltip("Button desktop!", 1000)
+}
+else 
+{
+    MouseButtonMode = 0
+    ShowCustomTooltip("Button normal!", 1000)
+}
+return
+
+#If (MouseButtonMode == 1) ;Code
 XButton1::
     Send, {Enter}
 return
@@ -103,7 +124,7 @@ return
 #If
 
 ;Switch desktop
-#If (MiddleButtonMode == 2)
+#If (MouseButtonMode == 2)
 XButton1::
     Send ^#{Left}
 return
@@ -121,9 +142,8 @@ return
 
 
 ;Ctrl alt
-;PTG
 ^!g::
-Run, msedge.exe "https://courses.uit.edu.vn/course/view.php?id=11998"
+Run, msedge.exe "https://gemini.google.com/app"
 return
 
 ;LSD
@@ -274,6 +294,8 @@ return
 
 NumLock::
     Send, !{PrintScreen}
+    ShowIcon("F:\App\icon\AHKicon\printscreenWindow.png") ; Hiển thị icon cho chụp cửa sổ
+
 return
 
 
@@ -291,10 +313,6 @@ return
     Send, await
 return
 
-^{Backspace}::  ; Ctrl + Backspace
-    Send, test('
-return
-
 ^NumpadDiv::  ; Ctrl + / on the numpad
     Send, !{F4}  ; Send Alt + F4
 return
@@ -302,3 +320,72 @@ return
 ; Remap PauseBreak to Play/Pause
 Pause::Send {Media_Play_Pause}
 return
+
+
+
+
+; Định nghĩa các hotkey
+$^c::
+Send, ^c                           ; Gửi lại phím Ctrl+C
+    ShowIcon("F:\App\icon\AHKicon\copy.png")   ; Hiển thị icon cho sao chép
+    return
+
+$^v::
+Send, ^v                           ; Gửi lại phím Ctrl+V
+    ShowIcon("F:\App\icon\AHKicon\paste.png")  ; Hiển thị icon cho dán
+    return
+
+$^x::
+Send, ^x                           ; Gửi lại phím Ctrl+X
+    ShowIcon("F:\App\icon\AHKicon\cut.png")    ; Hiển thị icon cho cắt
+    return
+
+$^z::
+Send, ^z                           ; Gửi lại phím Ctrl+Z
+    ShowIcon("F:\App\icon\AHKicon\undo.png")   ; Hiển thị icon cho hoàn tác
+    return
+
+$^+z::
+Send, ^+z                           ; Gửi lại phím Ctrl+Shift+Z
+    ShowIcon("F:\App\icon\AHKicon\redo.png")   ; Hiển thị icon cho làm lại
+    return
+
+$^s::
+Send, ^s                           ; Gửi lại phím Ctrl+S
+    ShowIcon("F:\App\icon\AHKicon\save.png")   ; Hiển thị icon cho lưu
+    return
+
+$PrintScreen::
+    Send, {PrintScreen}                 ; Gửi lại phím PrintScreen
+    ShowIcon("F:\App\icon\AHKicon\printscreen.png") ; Hiển thị icon cho chụp
+    return
+
+$!PrintScreen::
+Send, !{PrintScreen}                 ; Gửi lại phím Alt+PrintScreen
+    ShowIcon("F:\App\icon\AHKicon\printscreenWindow.png") ; Hiển thị icon cho chụp cửa sổ
+    return
+
+
+ShowIcon(iconPath) {
+    ; Destroy the previous GUI if it exists
+    Gui, 50:Destroy
+
+    ; Set GUI properties
+    Gui, 50:Color, EEAA99
+    Gui, 50:Add, Picture, x10 y10 w32 h32 BackgroundTrans, %iconPath%
+    Gui, 50:+LastFound +AlwaysOnTop +ToolWindow -Caption +E0x20
+    WinSet, TransColor, EEAA99 ; Make background transparent
+    Gui, 50:-Caption
+    Gui, 50:Show, x10 y10 w50 h50 NoActivate
+
+    ; Set timer to hide icon after 1 second
+    SetTimer, HideIcon, -1000
+    return
+
+    ; Function to hide the icon
+    HideIcon:
+    Gui, 50:Destroy
+    return
+}
+
+
