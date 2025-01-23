@@ -293,6 +293,7 @@ if (activeProcess = "msedge.exe" or activeProcess = "chrome.exe")
 return
 
 NumLock::
+    Gui, 50:Destroy
     Send, !{PrintScreen}
     ShowIcon("F:\App\icon\AHKicon\printscreenWindow.png") ; Hiển thị icon cho chụp cửa sổ
 
@@ -356,12 +357,14 @@ Send, ^s                           ; Gửi lại phím Ctrl+S
     return
 
 $PrintScreen::
+    Gui, 50:Destroy
     Send, {PrintScreen}                 ; Gửi lại phím PrintScreen
     ShowIcon("F:\App\icon\AHKicon\printscreen.png") ; Hiển thị icon cho chụp
     return
 
 $!PrintScreen::
-Send, !{PrintScreen}                 ; Gửi lại phím Alt+PrintScreen
+    Gui, 50:Destroy
+    Send, !{PrintScreen}                 ; Gửi lại phím Alt+PrintScreen
     ShowIcon("F:\App\icon\AHKicon\printscreenWindow.png") ; Hiển thị icon cho chụp cửa sổ
     return
 
